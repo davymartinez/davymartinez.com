@@ -1,0 +1,12 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/[locale]/page": "app/[locale]/page.js",
+  "/[locale]/(site)/seo-portfolio/page": "app/[locale]/(site)/seo-portfolio/page.js",
+  "/[locale]/(site)/contact/page": "app/[locale]/(site)/contact/page.js",
+  "/[locale]/(site)/seo-portfolio/[slug]/page": "app/[locale]/(site)/seo-portfolio/[slug]/page.js",
+  "/[locale]/(site)/translation-portfolio/page": "app/[locale]/(site)/translation-portfolio/page.js",
+  "/[locale]/(site)/about/page": "app/[locale]/(site)/about/page.js",
+  "/[locale]/(site)/cv/page": "app/[locale]/(site)/cv/page.js",
+  "/[locale]/(site)/blog/page": "app/[locale]/(site)/blog/page.js",
+  "/[locale]/(site)/services/page": "app/[locale]/(site)/services/page.js"
+}

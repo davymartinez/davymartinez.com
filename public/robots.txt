@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.davymartinez.com
+
+# Sitemaps
+Sitemap: https://www.davymartinez.com/sitemap.xml

@@ -1,0 +1,6 @@
+{
+	"title": "Gas lift valves case study for oil & gas control hardware manufacturer",
+	"excerpt": "Translation of a case study brochure explaining how a gas-lift operation was improved by using electrically actuated valves.",
+	"sourceText": "In April 2024, the operator replaced the outdated pneumatic valves with Kimray valves equipped with electric actuators. These valves feature Modbus communication and 4-20 mA signal capabilities, allowing for remote monitoring and control without the need for pneumatic gas supply. The electric actuators provided precise control, reduced environmental impact by eliminating gas consumption, and enabled integration with the client’s existing control systems for real-time data access.",
+	"targetText": "En abril de 2024, la operadora reemplazó las válvulas neumáticas obsoletas con válvulas Kimray equipadas con actuadores eléctricos. Estas válvulas cuentan con capacidad de comunicación vía Modbus y señal de control de 4-20 mA, lo que permite su monitoreo y control remotos sin tener que depender de un suministro de gas neumático. Los actuadores eléctricos ofrecieron un control preciso, al tiempo que redujeron el impacto ambiental al eliminar el consumo de gas. También permitieron integrar las válvulas con los sistemas de control existentes del usuario para ofrecer acceso a sus datos en tiempo real."
+}

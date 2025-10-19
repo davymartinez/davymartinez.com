@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"lib/i18n/index.ts -> ./dictionaries/es\":{\"id\":\"lib/i18n/index.ts -> ./dictionaries/es\",\"files\":[\"static/chunks/_app-pages-browser_lib_i18n_dictionaries_es_ts.js\"]}}"
