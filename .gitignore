@@ -1,1 +1,16 @@
 node_modules
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Build & cache
+.next/
+out/
+dist/
+node_modules/
+*.log
+
+# Environment
+.env*
