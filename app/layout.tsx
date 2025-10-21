@@ -52,16 +52,6 @@ export const metadata: Metadata = {
 	},
 };
 
-const themeInit = `(() => {
-	try {
-		const root = document.documentElement;
-		const storedTheme = localStorage.getItem('theme');
-		const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		const isDark = storedTheme ? storedTheme === 'dark' : systemDark;
-		if (isDark) root.classList.add('dark'); else root.classList.remove('dark');
-	} catch (_) {}
-})();`;
-
 export default function RootLayout({ children }: { children: ReactNode }) {
 	const org = {
 		"@context": "https://schema.org",
@@ -82,13 +72,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html
 			lang="es"
-			className={`${inter.variable} theme-ocean`}
+			className={`${inter.variable} theme-ocean dark`}
 			suppressHydrationWarning
 		>
 			<body>
-				<Script id="theme-init" strategy="beforeInteractive">
-					{themeInit}
-				</Script>
 				{children}
 				<JsonLd data={org} />
 				<JsonLd data={person} />
