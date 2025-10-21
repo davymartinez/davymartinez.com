@@ -7,6 +7,22 @@ const nextConfig = {
 		mdxRs: true,
 	},
 	pageExtensions: ["ts", "tsx", "mdx"],
+
+	async redirects() {
+		return [
+			{
+				source: "/:path*",
+				has: [
+					{
+						type: "host",
+						value: "davymartinez.com",
+					},
+				],
+				destination: "https://www.davymartinez.com/:path*",
+				permanent: true,
+			},
+		];
+	},
 };
 
 const withMDX = createMDX({

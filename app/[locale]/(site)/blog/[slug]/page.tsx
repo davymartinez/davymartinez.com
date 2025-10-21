@@ -40,7 +40,42 @@ export async function generateMetadata({
 
 	const source = fs.readFileSync(filePath, "utf8");
 	const { data } = matter(source);
-	return { title: data.title || params.slug };
+
+	const base = "https://www.davymartinez.com";
+	const localePath = params.locale === "es" ? "" : `/${params.locale}`;
+	const url = `${base}${localePath}/blog/${params.slug}`;
+
+	return {
+		title: data.title || params.slug,
+		description: data.description || data.excerpt || undefined,
+		alternates: { canonical: url },
+
+		// ✅ NEW — per-post OG & Twitter cards
+		openGraph: {
+			url,
+			type: "article",
+			title: data.title,
+			description: data.description || data.excerpt,
+			images: [
+				{
+					url: data.image
+						? `${base}${data.image}`
+						: `${base}/og-image.jpg`,
+					width: 1200,
+					height: 630,
+					alt: data.title,
+				},
+			],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: data.title,
+			description: data.description || data.excerpt,
+			images: [
+				data.image ? `${base}${data.image}` : `${base}/og-image.jpg`,
+			],
+		},
+	};
 }
 
 export default async function PostPage({

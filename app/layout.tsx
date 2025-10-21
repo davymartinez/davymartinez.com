@@ -16,6 +16,40 @@ export const metadata: Metadata = {
 	description:
 		"SEO optimization and English-to-Spanish translation services by David Martínez. Boost your site's visibility and connect with Spanish-speaking audiences.",
 	manifest: "/site.webmanifest",
+
+	// ✅ NEW — canonical + multilingual alternates
+	alternates: {
+		canonical: "/",
+		languages: {
+			en: "/en",
+			es: "/es",
+		},
+	},
+
+	// ✅ NEW — global OG + Twitter defaults (auto-extends per page)
+	openGraph: {
+		url: "https://www.davymartinez.com",
+		type: "website",
+		siteName: "David Martínez",
+		title: "David Martínez | On-Page SEO & EN→ES Translator",
+		description:
+			"SEO optimization and English-to-Spanish translation services by David Martínez.",
+		images: [
+			{
+				url: "https://www.davymartinez.com/og-image.jpg",
+				width: 1200,
+				height: 630,
+				alt: "David Martínez — SEO & Translator",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "David Martínez | On-Page SEO & EN→ES Translator",
+		description:
+			"SEO optimization and English-to-Spanish translation services by David Martínez.",
+		images: ["https://www.davymartinez.com/og-image.jpg"],
+	},
 };
 
 const themeInit = `(() => {

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Locale, isLocale } from "@/lib/i18n";
+import type { Metadata } from "next";
 
 export default function LocaleLayout({
 	children,
@@ -19,4 +20,19 @@ export default function LocaleLayout({
 			<SiteFooter locale={locale} />
 		</div>
 	);
+}
+
+export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+	const base = "https://www.davymartinez.com";
+	const locale = params.locale === "es" ? "" : `/${params.locale}`;
+
+	return {
+		alternates: {
+			canonical: `${base}${locale}/`,
+			languages: {
+				en: `${base}/en`,
+				es: `${base}/es`,
+			},
+		},
+	};
 }
