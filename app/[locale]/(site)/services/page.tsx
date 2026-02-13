@@ -3,22 +3,24 @@ import Link from "next/link";
 import { getDictionary } from "@/lib/i18n";
 
 type Props = {
-	params: { locale: "en" | "es" };
+	params: Promise<{ locale: "en" | "es" }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const t = await getDictionary(params.locale);
+	const { locale } = await params;
+	const t = await getDictionary(locale);
 	return {
 		title: t.services.h1,
 		description:
-			params.locale === "en"
+			locale === "en"
 				? "On-Page SEO and EN→ES Translation services for brands and content projects."
 				: "Servicios de On-Page SEO y Traducción EN→ES para marcas y proyectos de contenido.",
 	};
 }
 
 export default async function ServicesPage({ params }: Props) {
-	const t = await getDictionary(params.locale);
+	const { locale } = await params;
+	const t = await getDictionary(locale);
 
 	return (
 		<article className="prose prose-slate dark:prose-invert max-w-none">
@@ -33,8 +35,8 @@ export default async function ServicesPage({ params }: Props) {
 					))}
 				</ul>
 				<p>
-					<Link href={`/${params.locale}/seo-portfolio`}>
-						{params.locale === "en"
+					<Link href={`/${locale}/seo-portfolio`}>
+						{locale === "en"
 							? "See SEO portfolio →"
 							: "Ver portfolio SEO →"}
 					</Link>
@@ -50,8 +52,8 @@ export default async function ServicesPage({ params }: Props) {
 					))}
 				</ul>
 				<p>
-					<Link href={`/${params.locale}/translation-portfolio`}>
-						{params.locale === "en"
+					<Link href={`/${locale}/translation-portfolio`}>
+						{locale === "en"
 							? "See translation portfolio →"
 							: "Ver portfolio de traducción →"}
 					</Link>

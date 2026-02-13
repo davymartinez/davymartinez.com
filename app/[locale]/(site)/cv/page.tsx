@@ -3,9 +3,10 @@ import { getDictionary } from "@/lib/i18n";
 export default async function CVPage({
 	params,
 }: {
-	params: { locale: "en" | "es" };
+	params: Promise<{ locale: "en" | "es" }>;
 }) {
-	const t = await getDictionary(params.locale);
+	const { locale } = await params;
+	const t = await getDictionary(locale);
 
 	return (
 		<article className="prose prose-slate dark:prose-invert max-w-none">

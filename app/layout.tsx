@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import "./globals.css";
-import { Inter } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
-import Script from "next/script";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+import AnalyticsListener from "@/components/AnalyticsListener";
+import { GoogleTagManager } from "@next/third-parties/google"; // ✅ official GTM component
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://www.davymartinez.com"),
@@ -16,17 +14,10 @@ export const metadata: Metadata = {
 	description:
 		"SEO optimization and English-to-Spanish translation services by David Martínez. Boost your site's visibility and connect with Spanish-speaking audiences.",
 	manifest: "/site.webmanifest",
-
-	// ✅ NEW — canonical + multilingual alternates
 	alternates: {
 		canonical: "/",
-		languages: {
-			en: "/en",
-			es: "/es",
-		},
+		languages: { en: "/en", es: "/es" },
 	},
-
-	// ✅ NEW — global OG + Twitter defaults (auto-extends per page)
 	openGraph: {
 		url: "https://www.davymartinez.com",
 		type: "website",
@@ -52,7 +43,13 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+	children,
+}: {
+	children: ReactNode;
+}) {
+	const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+
 	const org = {
 		"@context": "https://schema.org",
 		"@type": "Organization",
@@ -70,13 +67,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 	};
 
 	return (
-		<html
-			lang="es"
-			className={`${inter.variable} theme-ocean dark`}
-			suppressHydrationWarning
-		>
+		<html lang="es" className="theme-ocean dark" suppressHydrationWarning>
 			<body>
+				{/* ✅ Official GTM loader */}
+				{gtmId && <GoogleTagManager gtmId={gtmId} />}
+
 				{children}
+
+				<Suspense fallback={null}>
+					<AnalyticsListener />
+				</Suspense>
+
 				<JsonLd data={org} />
 				<JsonLd data={person} />
 			</body>

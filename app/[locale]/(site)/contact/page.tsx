@@ -7,9 +7,10 @@ export const dynamic = "force-static";
 export async function generateMetadata({
 	params,
 }: {
-	params: { locale: "en" | "es" };
+	params: Promise<{ locale: "en" | "es" }>;
 }): Promise<Metadata> {
-	const t = await getDictionary(params.locale);
+	const { locale } = await params;
+	const t = await getDictionary(locale);
 	return {
 		title: t.contact.h1,
 		description: t.contact.intro,
@@ -19,9 +20,10 @@ export async function generateMetadata({
 export default async function ContactPage({
 	params,
 }: {
-	params: { locale: "en" | "es" };
+	params: Promise<{ locale: "en" | "es" }>;
 }) {
-	const t = await getDictionary(params.locale);
+	const { locale } = await params;
+	const t = await getDictionary(locale);
 
 	return (
 		<section className="space-y-6 max-w-xl">
@@ -29,7 +31,7 @@ export default async function ContactPage({
 				<h1>{t.contact.h1}</h1>
 				<p>{t.contact.intro}</p>
 			</article>
-			<ContactForm locale={params.locale} />
+			<ContactForm locale={locale} />
 		</section>
 	);
 }

@@ -7,6 +7,7 @@ const nextConfig = {
 		mdxRs: true,
 	},
 	pageExtensions: ["ts", "tsx", "mdx"],
+	turbopack: {},
 
 	async redirects() {
 		return [

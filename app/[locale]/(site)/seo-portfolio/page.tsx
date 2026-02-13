@@ -13,9 +13,10 @@ type Case = {
 export default async function SeoPortfolioPage({
 	params,
 }: {
-	params: { locale: "en" | "es" };
+	params: Promise<{ locale: "en" | "es" }>;
 }) {
-	const t = await getDictionary(params.locale);
+	const { locale } = await params;
+	const t = await getDictionary(locale);
 
 	const baseDir = path.join(process.cwd(), "content/portfolios/seo");
 
@@ -35,7 +36,7 @@ export default async function SeoPortfolioPage({
 	);
 
 	const cases: Case[] = uniqueSlugs.map((slug) => {
-		const localizedPath = path.join(baseDir, `${slug}.${params.locale}.json`);
+		const localizedPath = path.join(baseDir, `${slug}.${locale}.json`);
 		const fallbackPath = path.join(baseDir, `${slug}.en.json`);
 
 		let data: { title: string; excerpt: string };
@@ -71,7 +72,7 @@ export default async function SeoPortfolioPage({
 						<CaseCard
 							{...c}
 							readMore={t.seoPortfolio.readMore}
-							basePath={`${params.locale}/seo-portfolio`}
+							basePath={`${locale}/seo-portfolio`}
 						/>
 					</li>
 				))}

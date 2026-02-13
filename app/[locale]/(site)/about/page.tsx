@@ -5,10 +5,11 @@ import { Prose } from "@/components/Prose";
 export default async function AboutPage({
 	params,
 }: {
-	params: { locale: string };
+	params: Promise<{ locale: string }>;
 }) {
-	const locale: Locale = isLocale(params.locale)
-		? (params.locale as Locale)
+	const resolvedParams = await params;
+	const locale: Locale = isLocale(resolvedParams.locale)
+		? (resolvedParams.locale as Locale)
 		: "es";
 	const t = await getDictionary(locale);
 

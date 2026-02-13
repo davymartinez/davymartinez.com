@@ -8,10 +8,11 @@ import { getDictionary, isLocale, type Locale } from "@/lib/i18n";
 export default async function HomePage({
 	params,
 }: {
-	params: { locale: string };
+	params: Promise<{ locale: string }>;
 }) {
-	const locale: Locale = isLocale(params.locale)
-		? (params.locale as Locale)
+	const resolvedParams = await params;
+	const locale: Locale = isLocale(resolvedParams.locale)
+		? (resolvedParams.locale as Locale)
 		: "es";
 	const t = await getDictionary(locale);
 
@@ -63,7 +64,7 @@ export default async function HomePage({
 				</header>
 			</div>
 
-			<AvailabilityBar status="limited" locale={params.locale} />
+			<AvailabilityBar status="limited" locale={locale} />
 			{/* SERVICES */}
 			<section className="mt-20">
 				<h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">

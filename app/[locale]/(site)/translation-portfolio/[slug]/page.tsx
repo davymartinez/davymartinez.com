@@ -32,13 +32,14 @@ export async function generateStaticParams() {
 export default async function TranslationCasePage({
 	params,
 }: {
-	params: { locale: "en" | "es"; slug: string };
+	params: Promise<{ locale: "en" | "es"; slug: string }>;
 }) {
-	const t = await getDictionary(params.locale);
+	const { locale, slug } = await params;
+	const t = await getDictionary(locale);
 
 	const baseDir = path.join(process.cwd(), "content/portfolios/translation");
-	const localizedPath = path.join(baseDir, `${params.slug}.${params.locale}.json`);
-	const fallbackPath = path.join(baseDir, `${params.slug}.en.json`);
+	const localizedPath = path.join(baseDir, `${slug}.${locale}.json`);
+	const fallbackPath = path.join(baseDir, `${slug}.en.json`);
 
 	let localizedData: { title: string; excerpt: string };
 	let caseData: TranslationCase;
@@ -49,22 +50,22 @@ export default async function TranslationCasePage({
 	} else if (fs.existsSync(fallbackPath)) {
 		localizedData = JSON.parse(fs.readFileSync(fallbackPath, "utf-8"));
 	} else {
-		redirect(`/${params.locale}/translation-portfolio`);
+		redirect(`/${locale}/translation-portfolio`);
 	}
 
 	// Main content (always from English file)
-	const englishFile = path.join(baseDir, `${params.slug}.en.json`);
+	const englishFile = path.join(baseDir, `${slug}.en.json`);
 	if (fs.existsSync(englishFile)) {
 		caseData = JSON.parse(fs.readFileSync(englishFile, "utf-8"));
 	} else {
-		redirect(`/${params.locale}/translation-portfolio`);
+		redirect(`/${locale}/translation-portfolio`);
 	}
 
 	return (
 		<article className="prose prose-slate dark:prose-invert max-w-3xl">
 			<nav className="text-sm mb-4 text-muted-foreground">
 				<Link
-					href={`/${params.locale}/translation-portfolio`}
+					href={`/${locale}/translation-portfolio`}
 					className="underline hover:text-foreground"
 				>
 					{t.translationCase.backToPortfolio}

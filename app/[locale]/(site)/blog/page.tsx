@@ -41,14 +41,15 @@ function getPosts(locale: "en" | "es"): PostMeta[] {
 export default async function BlogIndex({
 	params,
 }: {
-	params: { locale: "en" | "es" };
+	params: Promise<{ locale: "en" | "es" }>;
 }) {
-	const t = await getDictionary(params.locale);
+	const { locale } = await params;
+	const t = await getDictionary(locale);
 
-	let posts = getPosts(params.locale);
+	let posts = getPosts(locale);
 
 	// Fallback: if no localized posts, show English ones
-	if (posts.length === 0 && params.locale !== "en") {
+	if (posts.length === 0 && locale !== "en") {
 		posts = getPosts("en");
 	}
 
@@ -63,7 +64,7 @@ export default async function BlogIndex({
 						<li key={post.slug}>
 							<article className="space-y-2">
 								<Link
-									href={`/${params.locale}/blog/${post.slug}`}
+									href={`/${locale}/blog/${post.slug}`}
 									className="group"
 								>
 									<h2 className="text-xl font-semibold group-hover:text-primary transition-colors">
@@ -72,7 +73,7 @@ export default async function BlogIndex({
 								</Link>
 								<p className="text-muted-foreground text-sm">{post.excerpt}</p>
 								<div className="text-xs text-muted-foreground flex flex-wrap gap-2">
-									<span>{new Date(post.date).toLocaleDateString(params.locale)}</span>
+									<span>{new Date(post.date).toLocaleDateString(locale)}</span>
 									<span>•</span>
 									<span>{post.readingTime}</span>
 									{post.tags.length > 0 && (

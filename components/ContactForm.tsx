@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { getDictionary } from "@/lib/i18n";
+import { gtmEvent } from "@/lib/gtm"; // ✅ import helper
 
 export function ContactForm({ locale }: { locale: "en" | "es" }) {
-	const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+	const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+		"idle"
+	);
 	const [t, setT] = useState<any>(null);
 	const [showToast, setShowToast] = useState(false);
 
@@ -28,10 +31,19 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 			});
 			if (!r.ok) throw new Error("Network");
 
+			// ✅ Success state
 			setStatus("sent");
 			form.reset();
 			setShowToast(true);
 			setTimeout(() => setShowToast(false), 4000);
+
+			// 🧠 GTM tracking event
+			gtmEvent({
+				event: "form_submit",
+				form_id: "contact",
+				form_name: "Contact Form",
+				locale,
+			});
 		} catch {
 			setStatus("error");
 			setShowToast(true);
@@ -41,7 +53,7 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 
 	return (
 		<form onSubmit={onSubmit} className="space-y-4 relative">
-			{/* 🧩 honeypot field (hidden) */}
+			{/* 🧩 honeypot */}
 			<input
 				type="text"
 				name="nickname"
@@ -51,7 +63,9 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 			/>
 
 			<div>
-				<label className="block text-sm font-medium">{t.contact.form.name}</label>
+				<label className="block text-sm font-medium">
+					{t.contact.form.name}
+				</label>
 				<input
 					name="name"
 					required
@@ -60,7 +74,9 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 			</div>
 
 			<div>
-				<label className="block text-sm font-medium">{t.contact.form.email}</label>
+				<label className="block text-sm font-medium">
+					{t.contact.form.email}
+				</label>
 				<input
 					name="email"
 					type="email"
@@ -70,7 +86,9 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 			</div>
 
 			<div>
-				<label className="block text-sm font-medium">{t.contact.form.message}</label>
+				<label className="block text-sm font-medium">
+					{t.contact.form.message}
+				</label>
 				<textarea
 					name="message"
 					rows={5}

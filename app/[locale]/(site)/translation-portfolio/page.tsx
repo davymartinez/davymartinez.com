@@ -13,9 +13,10 @@ type TranslationCase = {
 export default async function TranslationPortfolioPage({
 	params,
 }: {
-	params: { locale: "en" | "es" };
+	params: Promise<{ locale: "en" | "es" }>;
 }) {
-	const t = await getDictionary(params.locale);
+	const { locale } = await params;
+	const t = await getDictionary(locale);
 
 	const baseDir = path.join(process.cwd(), "content/portfolios/translation");
 
@@ -32,7 +33,7 @@ export default async function TranslationPortfolioPage({
 	const uniqueSlugs = Array.from(new Set(files.map((f) => f.split(".")[0])));
 
 	const cases: TranslationCase[] = uniqueSlugs.map((slug) => {
-		const localizedPath = path.join(baseDir, `${slug}.${params.locale}.json`);
+		const localizedPath = path.join(baseDir, `${slug}.${locale}.json`);
 		const fallbackPath = path.join(baseDir, `${slug}.en.json`);
 
 		let data: { title: string; excerpt: string };
@@ -67,7 +68,7 @@ export default async function TranslationPortfolioPage({
 						<CaseCard
 							{...c}
 							readMore={t.translationPortfolio.readMore}
-							basePath={`${params.locale}/translation-portfolio`}
+							basePath={`${locale}/translation-portfolio`}
 						/>
 					</li>
 				))}

@@ -33,13 +33,14 @@ export async function generateStaticParams() {
 export default async function SeoCasePage({
 	params,
 }: {
-	params: { locale: "en" | "es"; slug: string };
+	params: Promise<{ locale: "en" | "es"; slug: string }>;
 }) {
-	const t = await getDictionary(params.locale);
+	const { locale, slug } = await params;
+	const t = await getDictionary(locale);
 
 	const baseDir = path.join(process.cwd(), "content/portfolios/seo");
-	const localizedPath = path.join(baseDir, `${params.slug}.${params.locale}.json`);
-	const fallbackPath = path.join(baseDir, `${params.slug}.en.json`);
+	const localizedPath = path.join(baseDir, `${slug}.${locale}.json`);
+	const fallbackPath = path.join(baseDir, `${slug}.en.json`);
 
 	let data: CaseStudy | null = null;
 
@@ -48,7 +49,7 @@ export default async function SeoCasePage({
 	} else if (fs.existsSync(fallbackPath)) {
 		data = JSON.parse(fs.readFileSync(fallbackPath, "utf-8")) as CaseStudy;
 	} else {
-		redirect(`/${params.locale}/seo-portfolio`);
+		redirect(`/${locale}/seo-portfolio`);
 	}
 
 	// ✅ TypeScript now knows data is definitely a CaseStudy
@@ -56,7 +57,7 @@ export default async function SeoCasePage({
 		<article className="prose prose-slate dark:prose-invert max-w-3xl">
 			<nav className="text-sm mb-4 text-muted-foreground">
 				<Link
-					href={`/${params.locale}/seo-portfolio`}
+					href={`/${locale}/seo-portfolio`}
 					className="underline hover:text-foreground"
 				>
 					{t.caseStudy.backToPortfolio}

@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { MDXRemote, type MDXRemoteProps } from "next-mdx-remote/rsc";
 import { Prose } from "@/components/Prose";
 import { getDictionary } from "@/lib/i18n";
 import Link from "next/link";
@@ -32,21 +32,22 @@ export async function generateStaticParams() {
 export async function generateMetadata({
 	params,
 }: {
-	params: { slug: string; locale: "en" | "es" };
+	params: Promise<{ slug: string; locale: "en" | "es" }>;
 }): Promise<Metadata> {
-	const dir = path.join(process.cwd(), "content/posts", params.locale);
-	const filePath = path.join(dir, `${params.slug}.mdx`);
-	if (!fs.existsSync(filePath)) return { title: params.slug };
+	const { locale, slug } = await params;
+	const dir = path.join(process.cwd(), "content/posts", locale);
+	const filePath = path.join(dir, `${slug}.mdx`);
+	if (!fs.existsSync(filePath)) return { title: slug };
 
 	const source = fs.readFileSync(filePath, "utf8");
 	const { data } = matter(source);
 
 	const base = "https://www.davymartinez.com";
-	const localePath = params.locale === "es" ? "" : `/${params.locale}`;
-	const url = `${base}${localePath}/blog/${params.slug}`;
+	const localePath = locale === "es" ? "" : `/${locale}`;
+	const url = `${base}${localePath}/blog/${slug}`;
 
 	return {
-		title: data.title || params.slug,
+		title: data.title || slug,
 		description: data.description || data.excerpt || undefined,
 		alternates: { canonical: url },
 
@@ -81,27 +82,32 @@ export async function generateMetadata({
 export default async function PostPage({
 	params,
 }: {
-	params: { slug: string; locale: "en" | "es" };
+	params: Promise<{ slug: string; locale: "en" | "es" }>;
 }) {
-	const localizedDir = path.join(process.cwd(), "content/posts", params.locale);
+	const { locale, slug } = await params;
+	const localizedDir = path.join(process.cwd(), "content/posts", locale);
 	const fallbackDir = path.join(process.cwd(), "content/posts/en");
 
-	let filePath = path.join(localizedDir, `${params.slug}.mdx`);
+	let filePath = path.join(localizedDir, `${slug}.mdx`);
 	if (!fs.existsSync(filePath)) {
-		filePath = path.join(fallbackDir, `${params.slug}.mdx`);
+		filePath = path.join(fallbackDir, `${slug}.mdx`);
 	}
 
 	const source = fs.readFileSync(filePath, "utf8");
 	const { data, content } = matter(source);
 	const stats = readingTime(content);
-	const t = await getDictionary(params.locale);
+	const t = await getDictionary(locale);
+	const mdxSecurityOptions: MDXRemoteProps["options"] & Record<string, unknown> = {
+		blockJS: true,
+		blockDangerousJS: true,
+	};
 
 	return (
 		<Prose className="max-w-3xl">
 			<header className="mb-6">
 				<h1 className="text-3xl font-bold mb-2">{data.title}</h1>
 				<p className="text-sm text-muted-foreground">
-					{new Date(data.date).toLocaleDateString(params.locale)} • {stats.text}
+					{new Date(data.date).toLocaleDateString(locale)} • {stats.text}
 				</p>
 				{data.tags && (
 					<p className="text-xs text-muted-foreground mt-1">
@@ -110,11 +116,11 @@ export default async function PostPage({
 				)}
 			</header>
 
-			<MDXRemote source={content} />
+			<MDXRemote source={content} options={mdxSecurityOptions} />
 
 			<footer className="mt-8 border-t pt-4">
 				<Link
-					href={`/${params.locale}/blog`}
+					href={`/${locale}/blog`}
 					className="underline text-sm text-muted-foreground hover:text-primary"
 				>
 					{t.blog.backToList}

@@ -4,14 +4,15 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Locale, isLocale } from "@/lib/i18n";
 import type { Metadata } from "next";
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
 	children,
 	params,
 }: {
 	children: ReactNode;
-	params: { locale: string };
+	params: Promise<{ locale: string }>;
 }) {
-	const locale: Locale = isLocale(params.locale) ? params.locale : "es";
+	const resolvedParams = await params;
+	const locale: Locale = isLocale(resolvedParams.locale) ? resolvedParams.locale : "es";
 
 	return (
 		<div className="min-h-screen flex flex-col">
@@ -22,9 +23,14 @@ export default function LocaleLayout({
 	);
 }
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
 	const base = "https://www.davymartinez.com";
-	const locale = params.locale === "es" ? "" : `/${params.locale}`;
+	const resolvedParams = await params;
+	const locale = resolvedParams.locale === "es" ? "" : `/${resolvedParams.locale}`;
 
 	return {
 		alternates: {
