@@ -10,25 +10,44 @@ export async function POST(request: Request) {
 		const botField = data.get("nickname"); // honeypot field
 
 		// 🧱 Basic spam + validation checks
-		if (botField || !name || !email || !message) {
-			return NextResponse.json({ error: "Invalid submission" }, { status: 400 });
+		if (
+			botField ||
+			!name ||
+			!email ||
+			!message ||
+			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+		) {
+			return NextResponse.json(
+				{ error: "Invalid submission" },
+				{ status: 400 },
+			);
 		}
 
 		const apiKey = process.env.RESEND_API_KEY;
 		if (!apiKey) {
 			console.error("Missing RESEND_API_KEY");
-			return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
+			return NextResponse.json(
+				{ error: "Server misconfiguration" },
+				{ status: 500 },
+			);
 		}
 
 		const resend = new Resend(apiKey);
 
 		// ✉️ Send yourself an email via Resend
-		await resend.emails.send({
+		const { error } = await resend.emails.send({
 			from: "Portfolio Contact <onboarding@resend.dev>",
 			to: "admin@davymartinez.com", // change to your real address
 			subject: `New contact form message from ${name}`,
 			text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
 		});
+		if (error) {
+			console.error("Contact email delivery failed:", error.name);
+			return NextResponse.json(
+				{ error: "Email delivery failed" },
+				{ status: 502 },
+			);
+		}
 
 		return NextResponse.json({ success: true });
 	} catch (err) {

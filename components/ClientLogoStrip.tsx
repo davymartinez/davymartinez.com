@@ -32,15 +32,20 @@ export async function ClientLogoStrip({
 	const t = await getDictionary(locale);
 
 	return (
-		<section aria-label="Clientes" className="space-y-6">
+		<section
+			aria-label={
+				locale === "en" ? "Client experience" : "Experiencia con clientes"
+			}
+			className="grid gap-8 rounded-2xl bg-muted p-6 md:grid-cols-2 md:p-8"
+		>
 			<div className="space-y-2">
-				<p className="text-xs uppercase tracking-wide text-muted-foreground">
+				<p className="text-sm font-medium tracking-wide text-muted-foreground">
 					{t.components.clients.seo}
 				</p>
 				<LogoRow items={seo} />
 			</div>
 			<div className="space-y-2">
-				<p className="text-xs uppercase tracking-wide text-muted-foreground">
+				<p className="text-sm font-medium tracking-wide text-muted-foreground">
 					{t.components.clients.tr}
 				</p>
 				<LogoRow items={translation} />
@@ -54,10 +59,7 @@ function LogoRow({ items }: { items: Item[] }) {
 		<div className="flex flex-wrap items-center gap-3 md:gap-4">
 			{items.map((it, i) =>
 				it.src ? (
-					<div
-						key={i}
-						className="h-9 px-4 rounded-xl border border-border bg-card inline-flex items-center justify-center"
-					>
+					<div key={i} className="inline-flex items-center justify-center">
 						<Image
 							src={it.src}
 							alt={it.name}
@@ -69,11 +71,11 @@ function LogoRow({ items }: { items: Item[] }) {
 				) : (
 					<div
 						key={i}
-						className="h-9 px-4 rounded-xl border border-border bg-card text-muted-foreground inline-flex items-center justify-center text-xs md:text-sm font-medium tracking-wide"
+						className="inline-flex items-center text-foreground text-base font-medium"
 					>
 						{it.name}
 					</div>
-				)
+				),
 			)}
 		</div>
 	);

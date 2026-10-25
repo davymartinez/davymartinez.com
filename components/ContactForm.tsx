@@ -1,25 +1,23 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { getDictionary } from "@/lib/i18n";
+import type { Dictionary } from "@/lib/i18n/types";
 import { gtmEvent } from "@/lib/gtm"; // ✅ import helper
 
-export function ContactForm({ locale }: { locale: "en" | "es" }) {
+export function ContactForm({
+	locale,
+	labels,
+}: {
+	locale: "en" | "es";
+	labels: Dictionary["contact"]["form"];
+}) {
 	const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
-		"idle"
+		"idle",
 	);
-	const [t, setT] = useState<any>(null);
-	const [showToast, setShowToast] = useState(false);
-
-	if (!t) {
-		getDictionary(locale).then(setT);
-		return null;
-	}
 
 	async function onSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		setStatus("sending");
-		setShowToast(false);
 
 		const form = e.currentTarget;
 		const data = new FormData(form);
@@ -34,8 +32,6 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 			// ✅ Success state
 			setStatus("sent");
 			form.reset();
-			setShowToast(true);
-			setTimeout(() => setShowToast(false), 4000);
 
 			// 🧠 GTM tracking event
 			gtmEvent({
@@ -46,8 +42,6 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 			});
 		} catch {
 			setStatus("error");
-			setShowToast(true);
-			setTimeout(() => setShowToast(false), 4000);
 		}
 	}
 
@@ -63,68 +57,61 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 			/>
 
 			<div>
-				<label className="block text-sm font-medium">
-					{t.contact.form.name}
+				<label htmlFor="contact-name" className="block text-sm font-medium">
+					{labels.name}
 				</label>
 				<input
+					id="contact-name"
+					autoComplete="name"
 					name="name"
 					required
-					className="w-full border rounded-md px-3 py-2"
+					className="form-field"
 				/>
 			</div>
 
 			<div>
-				<label className="block text-sm font-medium">
-					{t.contact.form.email}
+				<label htmlFor="contact-email" className="block text-sm font-medium">
+					{labels.email}
 				</label>
 				<input
+					id="contact-email"
+					autoComplete="email"
 					name="email"
 					type="email"
 					required
-					className="w-full border rounded-md px-3 py-2"
+					className="form-field"
 				/>
 			</div>
 
 			<div>
-				<label className="block text-sm font-medium">
-					{t.contact.form.message}
+				<label htmlFor="contact-message" className="block text-sm font-medium">
+					{labels.message}
 				</label>
 				<textarea
+					id="contact-message"
 					name="message"
 					rows={5}
 					required
-					className="w-full border rounded-md px-3 py-2"
+					className="form-field"
 				/>
 			</div>
 
 			<button
 				type="submit"
-				className="px-4 py-2 rounded-md bg-accent text-white disabled:opacity-60"
+				className="btn btn-primary disabled:opacity-60 disabled:cursor-wait"
 				disabled={status === "sending"}
 			>
-				{status === "sending" ? t.contact.form.sending : t.contact.form.submit}
+				{status === "sending" ? labels.sending : labels.submit}
 			</button>
 
-			{/* ✅ / ⚠️ Animated toast */}
 			<div
-				className={`absolute left-0 right-0 mt-3 text-sm text-center transition-opacity duration-500 ${
-					showToast ? "opacity-100" : "opacity-0"
-				}`}
+				role="status"
 				aria-live="polite"
+				aria-atomic="true"
+				className="text-sm text-foreground"
 			>
-				{status === "sent" && (
-					<div className="inline-flex items-center gap-2 bg-green-50 border border-green-300 px-3 py-1 rounded-md shadow-sm text-green-700">
-						<span>✅</span>
-						<span>{t.contact.form.sent}</span>
-					</div>
-				)}
-
-				{status === "error" && (
-					<div className="inline-flex items-center gap-2 bg-red-50 border border-red-300 px-3 py-1 rounded-md shadow-sm text-red-700">
-						<span>⚠️</span>
-						<span>{t.contact.form.error}</span>
-					</div>
-				)}
+				{status === "sent" && <p>{labels.sent}</p>}
+				{status === "error" && <p>{labels.error}</p>}
 			</div>
 		</form>
 	);

@@ -12,12 +12,19 @@ export default async function LocaleLayout({
 	params: Promise<{ locale: string }>;
 }) {
 	const resolvedParams = await params;
-	const locale: Locale = isLocale(resolvedParams.locale) ? resolvedParams.locale : "es";
+	const locale: Locale = isLocale(resolvedParams.locale)
+		? resolvedParams.locale
+		: "es";
 
 	return (
-		<div className="min-h-screen flex flex-col">
+		<div lang={locale} className="min-h-dvh flex flex-col">
+			<a href="#main-content" className="skip-link">
+				{locale === "en" ? "Skip to content" : "Saltar al contenido"}
+			</a>
 			<SiteHeader locale={locale} />
-			<main className="container flex-1 py-10">{children}</main>
+			<main id="main-content" tabIndex={-1} className="container flex-1 py-10">
+				{children}
+			</main>
 			<SiteFooter locale={locale} />
 		</div>
 	);
@@ -30,7 +37,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const base = "https://www.davymartinez.com";
 	const resolvedParams = await params;
-	const locale = resolvedParams.locale === "es" ? "" : `/${resolvedParams.locale}`;
+	const locale =
+		resolvedParams.locale === "es" ? "" : `/${resolvedParams.locale}`;
 
 	return {
 		alternates: {

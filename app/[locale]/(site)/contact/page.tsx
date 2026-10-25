@@ -31,7 +31,7 @@ export default async function ContactPage({
 				<h1>{t.contact.h1}</h1>
 				<p>{t.contact.intro}</p>
 			</article>
-			<ContactForm locale={locale} />
+			<ContactForm locale={locale} labels={t.contact.form} />
 		</section>
 	);
 }

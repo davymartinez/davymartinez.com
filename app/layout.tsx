@@ -4,6 +4,17 @@ import "./globals.css";
 import { JsonLd } from "@/components/JsonLd";
 import AnalyticsListener from "@/components/AnalyticsListener";
 import { GoogleTagManager } from "@next/third-parties/google"; // ✅ official GTM component
+import localFont from "next/font/local";
+
+const manrope = localFont({
+	src: [
+		{ path: "../public/fonts/manrope-regular.ttf", weight: "400" },
+		{ path: "../public/fonts/manrope-medium.ttf", weight: "500" },
+		{ path: "../public/fonts/manrope-semibold.ttf", weight: "600" },
+	],
+	variable: "--font-manrope",
+	display: "swap",
+});
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://www.davymartinez.com"),
@@ -27,9 +38,9 @@ export const metadata: Metadata = {
 			"SEO optimization and English-to-Spanish translation services by David Martínez.",
 		images: [
 			{
-				url: "https://www.davymartinez.com/og-image.jpg",
-				width: 1200,
-				height: 630,
+				url: "https://www.davymartinez.com/avatar.jpg",
+				width: 512,
+				height: 512,
 				alt: "David Martínez — SEO & Translator",
 			},
 		],
@@ -39,15 +50,18 @@ export const metadata: Metadata = {
 		title: "David Martínez | On-Page SEO & EN→ES Translator",
 		description:
 			"SEO optimization and English-to-Spanish translation services by David Martínez.",
-		images: ["https://www.davymartinez.com/og-image.jpg"],
+		images: ["https://www.davymartinez.com/avatar.jpg"],
 	},
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
+	params,
 }: {
 	children: ReactNode;
+	params: Promise<{ locale?: string }>;
 }) {
+	const { locale } = await params;
 	const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
 	const org = {
@@ -67,7 +81,11 @@ export default function RootLayout({
 	};
 
 	return (
-		<html lang="es" className="theme-ocean dark" suppressHydrationWarning>
+		<html
+			lang={locale === "en" ? "en" : "es"}
+			className={`${manrope.variable} dark`}
+			suppressHydrationWarning
+		>
 			<body>
 				{/* ✅ Official GTM loader */}
 				{gtmId && <GoogleTagManager gtmId={gtmId} />}

@@ -22,7 +22,7 @@ export function CaseCard({
 	return (
 		<Link
 			href={href}
-			className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg transition-transform hover:scale-[1.02]"
+			className="block group rounded-lg active:scale-[0.98]"
 		>
 			<article
 				className="card h-full p-4 rounded-lg"
@@ -32,7 +32,7 @@ export function CaseCard({
 				<span className="chip">{tag}</span>
 				<h3
 					id={`${slug}-title`}
-					className="font-semibold mt-2 group-hover:text-primary transition-colors"
+					className="font-semibold mt-2 group-hover:text-accent transition-colors"
 				>
 					{title}
 				</h3>

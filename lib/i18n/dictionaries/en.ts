@@ -14,8 +14,8 @@ export const dictionary = {
 	home: {
 		// ✅ Added missing fields required by types.ts
 		badges: "SEO & Translation Expertise",
-		hero: "On-Page SEO and Translation Services",
-		headline: "On-Page SEO Specialist & English-to-Spanish Translator",
+		hero: "I help people find your website through search and bring your English content to Spanish speaking readers.",
+		headline: "SEO that connects. Spanish that reads naturally.",
 		tagline: "David Martínez",
 		ctaPrimary: "Request an SEO Audit",
 		ctaSecondary: "View Portfolio",
@@ -33,11 +33,11 @@ export const dictionary = {
 		},
 		cards: {
 			seo: {
-				title: "On-Page SEO",
+				title: "On page SEO",
 				desc: "Technical and content optimization to improve your organic visibility.",
 			},
 			translation: {
-				title: "English-to-Spanish Translation",
+				title: "English to Spanish translation",
 				desc: "Accurate and natural translations that strengthen your brand communication.",
 			},
 			blog: {
@@ -49,11 +49,11 @@ export const dictionary = {
 			title: "Services",
 			items: {
 				seo: {
-					title: "On-Page SEO",
+					title: "On page SEO",
 					desc: "Optimization of technical elements and on-page content to improve organic performance.",
 				},
 				translation: {
-					title: "English-to-Spanish Translation",
+					title: "English to Spanish translation",
 					desc: "Professional translation services that preserve tone, clarity, and intent.",
 				},
 				blog: {
@@ -105,7 +105,9 @@ export const dictionary = {
 		h1: "CV",
 		intro: "Brief summary + link to PDF (optional).",
 		items: [
-			"SEO Associate — Sagapixel (May 2025 - present)",
+			"SEO Planner — Evolvics (Syneos Health) (Jun 2026 - present)",
+			"SEO Strategist — Taco (Mar 2026 - Jun 2026)",
+			"SEO Associate — Sagapixel (May 2025 - Nov 2025)",
 			"SEO Content Specialist — Graphite (Oct 2023 - May 2025)",
 			"Senior Music Metadata Editor — Gracenote (Nielsen) (Oct 2019 - May 2023)",
 			"Associate Content Manager & Copywriter — Uakami Studio (Dec 2014 - Jan 2017)",
@@ -119,9 +121,9 @@ export const dictionary = {
 			name: "Name",
 			email: "Email",
 			message: "Message",
-			submit: "Send",
+			submit: "Send message",
 			sending: "Sending…",
-			sent: "Thanks! I’ll get back to you soon.",
+			sent: "Message sent. I will get back to you soon.",
 			error: "There was an error. Write me at hola@davymartinez.com",
 		},
 	},

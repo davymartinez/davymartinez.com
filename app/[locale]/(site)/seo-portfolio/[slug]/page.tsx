@@ -16,17 +16,18 @@ export async function generateStaticParams() {
 	const dir = path.join(process.cwd(), "content/portfolios/seo");
 	const files = fs
 		.readdirSync(dir)
-		.filter(
-			(f) => f.endsWith(".json") && !f.startsWith("_") && f !== "seo.json"
-		);
+		.filter((f) => /\.(en|es)\.json$/.test(f) && !f.startsWith("_"));
+	const slugs = Array.from(
+		new Set(files.map((file) => file.replace(/\.(en|es)\.json$/, ""))),
+	);
 
 	const locales = ["en", "es"];
 
 	return locales.flatMap((locale) =>
-		files.map((file) => ({
+		slugs.map((slug) => ({
 			locale,
-			slug: file.replace(".json", ""),
-		}))
+			slug,
+		})),
 	);
 }
 

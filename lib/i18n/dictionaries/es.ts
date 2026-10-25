@@ -14,8 +14,8 @@ export const dictionary = {
 	home: {
 		// ✅ Added required fields
 		badges: "SEO y Traducción Profesional",
-		hero: "Servicios de SEO On-Page y Traducción Inglés-Español",
-		headline: "Especialista en On-Page SEO y Traductor Inglés-Español",
+		hero: "Te ayudo a llegar a tus lectores desde los buscadores y a comunicar en español lo que tu marca dice en inglés.",
+		headline: "SEO que conecta. Traducciones que se leen con naturalidad.",
 		tagline: "David Martínez",
 		ctaPrimary: "Solicitar auditoría SEO",
 		ctaSecondary: "Ver portafolio",
@@ -33,11 +33,11 @@ export const dictionary = {
 		},
 		cards: {
 			seo: {
-				title: "On-Page SEO",
+				title: "SEO de tu contenido",
 				desc: "Optimización técnica y de contenido para mejorar tu visibilidad en buscadores.",
 			},
 			translation: {
-				title: "Traducción EN→ES",
+				title: "Traducción del inglés al español",
 				desc: "Traducciones precisas y naturales que potencian la comunicación de tu marca.",
 			},
 			blog: {
@@ -49,11 +49,11 @@ export const dictionary = {
 			title: "Servicios",
 			items: {
 				seo: {
-					title: "On-Page SEO",
+					title: "SEO de tu contenido",
 					desc: "Optimización técnica y de contenido para mejorar tu visibilidad en buscadores.",
 				},
 				translation: {
-					title: "Traducción EN→ES",
+					title: "Traducción del inglés al español",
 					desc: "Traducciones precisas y naturales que potencian la comunicación de tu marca.",
 				},
 				blog: {
@@ -105,7 +105,9 @@ export const dictionary = {
 		h1: "CV",
 		intro: "Resumen breve + enlace a PDF (opcional).",
 		items: [
-			"SEO Associate — Sagapixel (May 2025 - presente)",
+			"SEO Planner — Evolvics (Syneos Health) (Jun 2026 - presente)",
+			"SEO Strategist — Taco (Mar 2026 - Jun 2026)",
+			"SEO Associate — Sagapixel (May 2025 - Nov 2025)",
 			"SEO Content Specialist — Graphite (Oct 2023 - May 2025)",
 			"Editor Senior de Metadata Musical — Gracenote (Nielsen) (Oct 2019 - May 2023)",
 			"Associate Content Manager & Copywriter — Uakami Studio (Dic 2014 - Ene 2017)",
@@ -119,9 +121,9 @@ export const dictionary = {
 			name: "Nombre",
 			email: "Email",
 			message: "Mensaje",
-			submit: "Enviar",
+			submit: "Enviar mensaje",
 			sending: "Enviando…",
-			sent: "¡Gracias! Te responderé pronto.",
+			sent: "Mensaje enviado. Te responderé pronto.",
 			error: "Hubo un error. Escribime a hola@davymartinez.com",
 		},
 	},
